@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+<h1>Home template</h1>
+
+<div>
+
+    <div>
+        {% for patient in patients %}
+        <div>
+            <h5>{{patient.id}} -- {{patient.name}}</h5>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}
