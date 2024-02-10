@@ -14,5 +14,10 @@ def home(request):
     context = {"patients" : patients}
     return render(request, 'base/home.html', context)
 
-def patient(request):
-    return render(request, 'base/patient.html')
+def patient(request, pk):
+    patient = None 
+    for i in patients:
+        if i["id"] == int(pk):
+            patient = i
+    context = {'patient':patient}
+    return render(request, 'base/patient.html', context)
