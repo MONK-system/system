@@ -30,6 +30,10 @@ def patient(request, pk):
 def about(request):
     return render(request, "base/about.html")
 
+def contact(request):
+    return render(request, "base/contact.html")
+
+
 
 # Function for logging in a user
 def loginPage(request):

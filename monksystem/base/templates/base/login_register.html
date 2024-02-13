@@ -5,17 +5,17 @@
 
 {% if page == 'login' %}
 
-<div>
+<div class = "container">
+    <br>
+    <h2 class = "text-center">Admin Login</h2>
     <form method = "POST" action ="">
         {% csrf_token %}
-
         <label>Username:</label>
-        <input type ="text" name ="username" placeholder="Enter Username"/>
-
+        <input type ="text" name ="username" class = "form-control" placeholder="Enter Username"/>
         <label>Password:</label>
-        <input type ="password" name ="password" placeholder="Enter Password"/>
-
-        <input type ="submit" value ="Login"/>
+        <input type ="password" name ="password" class = "form-control" placeholder="Enter Password"/>
+        <br>
+        <input type ="submit" value ="Login" class = "form-control btn btn-primary" />
 
         <p>Havent signed up yet?</p>
         <a href = "{% url 'register' %}">Sign up</a>
