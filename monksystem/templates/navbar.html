@@ -14,7 +14,7 @@
                 <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Doctor</a>
                 <div class = "dropdown-menu">
                     <a class = "dropdown-item" href = "#">Add Doctor</a>
-                    <a class = "dropdown-item" href = "#">View Doctor</a>
+                    <a class = "dropdown-item" href = "{% url 'viewDoctor' %}">View Doctor</a>
                 </div>
             </li>
 
@@ -22,7 +22,7 @@
                 <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Patient</a>
                 <div class = "dropdown-menu">
                     <a class = "dropdown-item" href = "#">Add Patient</a>
-                    <a class = "dropdown-item" href = "#">View Patient</a>
+                    <a class = "dropdown-item" href = "{% url 'viewPatient' %}">View Patient</a>
                 </div>
             </li>
 

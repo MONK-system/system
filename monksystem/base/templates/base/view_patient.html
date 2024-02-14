@@ -1,0 +1,36 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block content %}
+    
+<div class = "container" style = "margin-top:50px">
+    <h2 class = "text-center">View Patients</h2>
+    <br>
+
+    <table class = "table table-hover">
+        <thead>
+            <tr>
+                <th>Patient ID</th>
+                <th>name</th>
+                <th>gender</th>
+                <th>address</th>
+                <th>mobile</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for patient in patients %}
+            <tr>
+                <td><a href="{% url 'patient' patient.id %}">{{patient.id}}</a></td>
+                <td><a href="{% url 'patient' patient.id %}">{{patient.name}}</a></td>
+                <td>{{patient.gender}}</td>
+                <td>{{patient.address}}</td>
+                <td>{{patient.mobile}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

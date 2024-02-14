@@ -98,3 +98,19 @@ def registerPage(request):
     context = {'form' : form}
     return render(request,'base/login_register.html', context)
 
+
+def viewDoctor(request):
+    
+    doctors = Doctor.objects.all()
+    
+    context = {'doctors' : doctors}
+    return render(request,'base/view_doctor.html', context)
+    
+
+def viewPatient(request):
+    
+    patients = Patient.objects.all()
+    
+    context = {'patients' : patients}
+    return render(request,'base/view_patient.html', context)
+    

@@ -11,4 +11,7 @@ urlpatterns = [
     path('logout/', views.logoutUser, name = "logout"),
     path('register/', views.registerPage, name = "register"),
     path('patient/<str:pk>', views.patient, name="patient"),
+    path('viewDoctor/', views.viewDoctor, name = "viewDoctor"),
+    path('viewPatient/', views.viewPatient, name = "viewPatient"),
+
 ]
