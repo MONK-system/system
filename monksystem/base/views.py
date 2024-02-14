@@ -122,3 +122,11 @@ def viewAppointment(request):
     context = {'appointments' : appointments}
     return render(request,'base/view_appointment.html', context)
     
+
+def viewVitals(request):
+    
+    vitals = Vitals.objects.all()
+
+    context = {'vitals' : vitals}
+    return render(request,'base/view_vitals.html', context)
+    

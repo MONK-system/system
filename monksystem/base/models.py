@@ -35,11 +35,11 @@ class Appointment(models.Model):
 class Vitals(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE) # When patient is deleted, appointment is also deleted.
     description = models.TextField(null = True, blank = True) # Description of appointment. Makes sure the values can be left blank. 
-    #heartRate = models.IntegerField(null=True)
-    #oxygen = models.IntegerField(null=True)
-    #bodyTemperature = models.IntegerField(null=True)
-    #respirationRate = models.IntegerField(null=True)
-    #bloodPressure = models.IntegerField(null=True)
+    heartRate = models.IntegerField(null=True)
+    oxygen = models.IntegerField(null=True)
+    bodyTemperature = models.IntegerField(null=True)
+    respirationRate = models.IntegerField(null=True)
+    bloodPressure = models.IntegerField(null=True)
     updated = models.DateTimeField(auto_now = True) # Takes a snapshot of anytime the table (model instance) is updated. Takes a timestamp every time appointment is updated.
     created = models.DateTimeField(auto_now_add = True) # Takes a timestamp of when the instance was created.
     
