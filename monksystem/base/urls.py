@@ -13,5 +13,6 @@ urlpatterns = [
     path('patient/<str:pk>', views.patient, name="patient"),
     path('viewDoctor/', views.viewDoctor, name = "viewDoctor"),
     path('viewPatient/', views.viewPatient, name = "viewPatient"),
+    path('viewAppointment/', views.viewAppointment, name = "viewAppointment"),
 
 ]

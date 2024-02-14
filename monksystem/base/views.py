@@ -114,3 +114,11 @@ def viewPatient(request):
     context = {'patients' : patients}
     return render(request,'base/view_patient.html', context)
     
+
+def viewAppointment(request):
+    
+    appointments = Appointment.objects.all()
+    
+    context = {'appointments' : appointments}
+    return render(request,'base/view_appointment.html', context)
+    
