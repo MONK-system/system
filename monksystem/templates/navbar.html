@@ -7,7 +7,38 @@
     </button>
     <div class = "collapse navbar-collapse" id = "myMenu">
         <ul class = "navbar-nav text-center ml-auto" >
-            <li class ="nav-item"><a class = "nav-link" href = "/">Home</a></li>
+
+            {% if request.user.is_authenticated %}
+
+            <li class = "nav-item dropdown">
+                <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Doctor</a>
+                <div class = "dropdown-menu">
+                    <a class = "dropdown-item" href = "#">Add Doctor</a>
+                    <a class = "dropdown-item" href = "#">View Doctor</a>
+                </div>
+            </li>
+
+            <li class = "nav-item dropdown">
+                <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Patient</a>
+                <div class = "dropdown-menu">
+                    <a class = "dropdown-item" href = "#">Add Patient</a>
+                    <a class = "dropdown-item" href = "#">View Patient</a>
+                </div>
+            </li>
+
+            <li class = "nav-item dropdown">
+                <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Appointment</a>
+                <div class = "dropdown-menu">
+                    <a class = "dropdown-item" href = "#">Add Appointment</a>
+                    <a class = "dropdown-item" href = "#">View Appointment</a>
+                </div>
+            </li>
+            
+            <li class ="nav-item"><a class = "nav-link" href = "/">Vitals</a></li>
+
+            {% endif %}
+
+            <li class ="nav-item"><a class = "nav-link" href = "{% url 'home' %}">Home</a></li>
             <li class ="nav-item"><a class = "nav-link" href = "{% url 'about' %}">About</a></li>
             <li class ="nav-item"><a class = "nav-link" href = "{% url 'contact' %}">Contact</a></li>
             {% if request.user.is_authenticated %}
