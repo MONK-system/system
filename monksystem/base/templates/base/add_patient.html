@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+
+
+{% block content %}
+<div class = "container">
+    <br>
+    <h2 class = "text-center">Add Patient</h2>
+    <form method = "POST" action ="">
+        {% csrf_token %}
+        
+        <label>Patient Name</label>
+        <input type ="text" class = "form-control" name="name" required/>
+        
+        <label>Gender</label>
+        <input type ="text" class = "form-control" name="gender" required/>
+        
+        <label>Address</label>
+        <input type ="text" class = "form-control" name="address" required/>
+        
+        <label>Mobile</label>
+        <input type ="text" class = "form-control" name="mobile" required/>
+        
+        <br>
+        <input type ="submit" value ="Submit" class = "form-control btn btn-primary" />
+    </form>
+
+</div>
+
+{% endblock %}

@@ -23,56 +23,48 @@ $(document).ready(function() {
 } );
 </script>
 
-<nav class = "navbar navbar-expand-sm bg-dark navbar-dark">
-<a href = "/" class = "navbar-brand" href = "#">Patient monitoring system<a/>
-    <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target="#myMenu">
-        <span class = "navbar-toggler-icon">
 
-        </span>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <a href="/" class="navbar-brand">Patient monitoring system</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#myMenu">
+        <span class="navbar-toggler-icon"></span>
     </button>
-    <div class = "collapse navbar-collapse" id = "myMenu">
-        <ul class = "navbar-nav text-center ml-auto" >
-
+    <div class="collapse navbar-collapse" id="myMenu">
+        <ul class="navbar-nav mr-auto">
             {% if request.user.is_authenticated %}
-
-            <li class = "nav-item dropdown">
-                <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Doctor</a>
-                <div class = "dropdown-menu">
-                    <a class = "dropdown-item" href = "#">Add Doctor</a>
-                    <a class = "dropdown-item" href = "{% url 'viewDoctor' %}">View Doctor</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Doctor</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'addDoctor' %}">Add Doctor</a>
+                    <a class="dropdown-item" href="{% url 'viewDoctor' %}">View Doctor</a>
                 </div>
             </li>
-
-            <li class = "nav-item dropdown">
-                <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Patient</a>
-                <div class = "dropdown-menu">
-                    <a class = "dropdown-item" href = "#">Add Patient</a>
-                    <a class = "dropdown-item" href = "{% url 'viewPatient' %}">View Patient</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Patient</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'addPatient' %}">Add Patient</a>
+                    <a class="dropdown-item" href="{% url 'viewPatient' %}">View Patient</a>
                 </div>
             </li>
-
-            <li class = "nav-item dropdown">
-                <a class = "nav-link dropdown-toggle" data-toggle="dropdown" href = "#">Appointment</a>
-                <div class = "dropdown-menu">
-                    <a class = "dropdown-item" href = "#">Add Appointment</a>
-                    <a class = "dropdown-item" href = "{% url 'viewAppointment' %}">View Appointment</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Appointment</a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Add Appointment</a>
+                    <a class="dropdown-item" href="{% url 'viewAppointment' %}">View Appointment</a>
                 </div>
             </li>
-            
-            <li class ="nav-item"><a class = "nav-link" href = "{% url 'viewVitals' %}">Vitals</a></li>
-
-            {% endif %}
-
-            <li class ="nav-item"><a class = "nav-link" href = "{% url 'home' %}">Home</a></li>
-            <li class ="nav-item"><a class = "nav-link" href = "{% url 'about' %}">About</a></li>
-            <li class ="nav-item"><a class = "nav-link" href = "{% url 'contact' %}">Contact</a></li>
-            {% if request.user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
-            {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'viewVitals' %}">Vitals</a></li>
             {% endif %}
         </ul>
-
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+            {% if request.user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
     </div>
 </nav>
-

@@ -129,4 +129,44 @@ def viewVitals(request):
 
     context = {'vitals' : vitals}
     return render(request,'base/view_vitals.html', context)
+
+
+def addDoctor(request):
     
+    if request.method == "POST":
+        name = request.POST['name']
+        contact = request.POST['contact']
+        specialization = request.POST['specialization']
+        
+        Doctor.objects.create(name=name, mobile=contact, specialization = specialization)
+        return redirect("home")
+    
+    return render(request, 'base/add_doctor.html')
+
+
+def addPatient(request):
+    
+    if request.method == "POST":
+        name = request.POST['name']
+        gender = request.POST['gender']
+        address = request.POST['address']
+        mobile = request.POST['mobile']
+        
+        Patient.objects.create(name=name, gender=gender, address=address, mobile=mobile)
+        return redirect("home")
+    
+    return render(request, 'base/add_patient.html')
+
+
+def addAppointment(request):
+    
+    if request.method == "POST":
+        name = request.POST['name']
+        gender = request.POST['gender']
+        address = request.POST['address']
+        mobile = request.POST['mobile']
+        
+        Patient.objects.create(name=name, gender=gender, address=address, mobile=mobile)
+        return redirect("home")
+    
+    return render(request, 'base/add_patient.html')
