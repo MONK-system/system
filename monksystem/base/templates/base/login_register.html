@@ -7,18 +7,25 @@
 
 <div class = "container">
     <br>
-    <h2 class = "text-center">Admin Login</h2>
+    <h2 class = "text-center">Login</h2>
     <form method = "POST" action ="">
         {% csrf_token %}
         <label>Username:</label>
         <input type ="text" name ="username" class = "form-control" placeholder="Enter Username"/>
+        <br>
+
         <label>Password:</label>
         <input type ="password" name ="password" class = "form-control" placeholder="Enter Password"/>
         <br>
         <input type ="submit" value ="Login" class = "form-control btn btn-primary" />
 
+        <div class="admin-login" style="text-align: right;">
+            <a href="/admin">Log in as admin</a>
+        </div>
+
         <p>Havent signed up yet?</p>
-        <a href = "{% url 'register' %}">Sign up</a>
+        <a href = "{% url 'register' %}">Sign up as user</a>
+        
 
     </form>
 
@@ -35,8 +42,7 @@
     </form>
 
     <p>Already signed up?</p>
-    <a href = "{% url 'login' %}">Login</a>
-
+    
 </div>
 
 {% endif %}
