@@ -160,13 +160,20 @@ def addPatient(request):
 
 def addAppointment(request):
     
+    doctors = Doctor.objects.all()
+    patients = Patient.objects.all()
+    
     if request.method == "POST":
-        name = request.POST['name']
-        gender = request.POST['gender']
-        address = request.POST['address']
-        mobile = request.POST['mobile']
-        
-        Patient.objects.create(name=name, gender=gender, address=address, mobile=mobile)
+        d = request.POST['doctor']
+        p = request.POST['patient']
+        description = request.POST['description']
+        date = request.POST['date']
+        time = request.POST['time']
+        doctor = Doctor.objects.filter(name=d).first()
+        patient = Patient.objects.filter(name=p).first()
+                
+        Appointment.objects.create(doctor = doctor, patient = patient, description = description, date = date, time = time)
         return redirect("home")
     
-    return render(request, 'base/add_patient.html')
+    context = {'doctors' : doctors, 'patients' : patients}
+    return render(request, 'base/add_appointment.html', context)
