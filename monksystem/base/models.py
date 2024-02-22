@@ -19,18 +19,16 @@ class Patient(models.Model):
     def __str__(self):
         return self.name
 
-class Appointment(models.Model):
+class Project(models.Model):
+    rekNummer = models.TextField(null = True, blank = True) # Description of appointment. Makes sure the values can be left blank. 
+    description = models.TextField(null = True, blank = True) # Description of appointment. Makes sure the values can be left blank. 
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE) # When doctor is deleted, appointment is also deleted.
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE) # When patient is deleted, appointment is also deleted.
-    description = models.TextField(null = True, blank = True) # Description of appointment. Makes sure the values can be left blank. 
-    date = models.DateField() # Date of appointment. 
-    time = models.TimeField() # Time of appointment.
     updated = models.DateTimeField(auto_now = True) # Takes a snapshot of anytime the table (model instance) is updated. Takes a timestamp every time appointment is updated.
     created = models.DateTimeField(auto_now_add = True) # Takes a timestamp of when the instance was created.
     
     def __str__(self):
         return self.doctor.name+"--"+self.patient.name
-    
     
 class Vitals(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE) # When patient is deleted, appointment is also deleted.

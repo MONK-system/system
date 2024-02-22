@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate,login,logout
-from .models import Patient, Doctor, Appointment, Vitals
+from .models import Patient, Doctor, Project, Vitals
 from django.contrib import messages
 # Create your views here.
 
@@ -115,12 +115,12 @@ def viewPatient(request):
     return render(request,'base/view_patient.html', context)
     
 
-def viewAppointment(request):
+def viewProject(request):
     
-    appointments = Appointment.objects.all()
+    projects = Project.objects.all()
     
-    context = {'appointments' : appointments}
-    return render(request,'base/view_appointment.html', context)
+    context = {'projects' : projects}
+    return render(request,'base/view_project.html', context)
     
 
 def viewVitals(request):
@@ -158,22 +158,21 @@ def addPatient(request):
     return render(request, 'base/add_patient.html')
 
 
-def addAppointment(request):
+def addProject(request):
     
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()
     
     if request.method == "POST":
+        rekNummer = request.POST['rekNummer']
+        description = request.POST['description']
         d = request.POST['doctor']
         p = request.POST['patient']
-        description = request.POST['description']
-        date = request.POST['date']
-        time = request.POST['time']
         doctor = Doctor.objects.filter(name=d).first()
         patient = Patient.objects.filter(name=p).first()
                 
-        Appointment.objects.create(doctor = doctor, patient = patient, description = description, date = date, time = time)
+        Project.objects.create(rekNummer = rekNummer, description = description, doctor = doctor, patient = patient)
         return redirect("home")
     
     context = {'doctors' : doctors, 'patients' : patients}
-    return render(request, 'base/add_appointment.html', context)
+    return render(request, 'base/add_project.html', context)

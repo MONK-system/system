@@ -4,9 +4,13 @@
 {% block content %}
 <div class = "container">
     <br>
-    <h2 class = "text-center">Add Appointment</h2>
+    <h2 class = "text-center">Add Project</h2>
     <form method = "POST" action ="">
         {% csrf_token %}
+
+        
+        <label>REK nummer</label>
+        <input type ="text" class = "form-control" name="rekNummer" required/>
         
         <label>Doctor name</label>
         <select name = "doctor" class = "form-control">
@@ -26,12 +30,6 @@
         
         <label>Description</label>
         <input type ="text" class = "form-control" name="description" required/>
-        
-        <label>Date</label>
-        <input type ="date" class = "form-control" name="date" required/>
-        
-        <label>Time</label>
-        <input type ="time" class = "form-control" name="time" required/>
         
         <br>
         <input type ="submit" value ="Submit" class = "form-control btn btn-primary" />
