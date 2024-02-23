@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from .models import DoctorRegistrationForm
 from django.contrib.auth import authenticate,login,logout
 from .models import Patient, Doctor, Project, Vitals
 from django.contrib import messages
@@ -80,16 +81,29 @@ def logoutUser(request):
 
 def registerPage(request):
     # else is used in the html, so no need for a page variable here. 
-    form = UserCreationForm()
-    
+    #form = UserCreationForm()
+    form = DoctorRegistrationForm()
+
     # Check if method is a POST request
     if request.method == 'POST':
-        form = UserCreationForm(request.POST) # passes in the data: username and password into user creation form
+        #form = UserCreationForm(request.POST) # passes in the data: username and password into user creation form
+        form = DoctorRegistrationForm(request.POST)
+
         # Checks if the form is valid
         if form.is_valid():
             user = form.save(commit=False) # saving the form, freezing it in time. If the form is valid, the user is created and we want to be able to access it right away. This is why we set commit = False
             user.username = user.username.lower() # Now that the user is created, we can access their credentials, like username and password. We lowercase the username of the user. 
             user.save() # saves the user. 
+            
+            
+            # Now, use the extra fields to create a Doctor instance
+            Doctor.objects.create(
+                user=user,
+                name=form.cleaned_data.get('name'),
+                mobile=form.cleaned_data.get('mobile'),
+                specialization=form.cleaned_data.get('specialization'),
+            )
+            
             login(request, user) # logs the user in.
             return redirect('home') # sends the user back to the home page.
         else: 

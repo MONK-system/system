@@ -1,14 +1,30 @@
 from django.db import models
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 
 # Create your models here.
 
+
+
 class Doctor(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length=50)
     mobile = models.IntegerField()
     specialization = models.CharField(max_length=50)
     
     def __str__(self):
         return self.name
+
+
+class DoctorRegistrationForm(UserCreationForm):
+    name = forms.CharField(max_length=50, help_text='Required. Add your full name.')
+    mobile = forms.IntegerField(help_text='Required. Add a contact number.')
+    specialization = forms.CharField(max_length=50, help_text='Required. Add your specialization.')
+
+    class Meta:
+        model = User
+        fields = ['username', 'name', 'mobile', 'specialization', 'password1', 'password2']
 
 class Patient(models.Model):
     name = models.CharField(max_length=50)
@@ -43,3 +59,4 @@ class Vitals(models.Model):
     
     def __str__(self):
         return self.patient.name
+
