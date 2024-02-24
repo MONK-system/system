@@ -1,15 +1,14 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
 <h1>Home template</h1>
 
-<div>
-
-    <div>
-     
-    </div>
-
-</div>
-
+<h2>Nihon Kohden Files</h2>
+<ul>
+    <!--
+    {% for file in files %}
+    <li>{{ file.title }} - <a href="{% url 'claim_file' file.id %}">Claim</a></li>
+    {% endfor %}
+    -->
+</ul>
 {% endblock %}

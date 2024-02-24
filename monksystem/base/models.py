@@ -31,7 +31,7 @@ class Patient(models.Model):
     gender = models.CharField(max_length=10)
     address = models.CharField(max_length=100)
     mobile = models.IntegerField(null=True)
-
+ 
     def __str__(self):
         return self.name
 
@@ -60,3 +60,22 @@ class Vitals(models.Model):
     def __str__(self):
         return self.patient.name
 
+
+
+# Model for the files
+class File(models.Model):
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to='nihon_kohden_files/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+# Model for file claims
+class FileClaim(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    file = models.ForeignKey(File, on_delete=models.CASCADE)
+    claimed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.file.title} claimed by {self.doctor.name}"

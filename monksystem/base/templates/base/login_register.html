@@ -30,19 +30,21 @@
     </form>
 
 </div>
-
 {% else %}
 
-<div>
-    <form method = "POST" action ="">
-        {% csrf_token %}
-        {{form.as_p}}
-        <input type ="submit" value ="Register"/>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center">Register</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Register" class="btn btn-primary btn-block"/>
+            </form>
 
-    </form>
-
-    <p>Already signed up?</p>
-    
+            <p class="text-center">Already signed up?</p>
+        </div>
+    </div>
 </div>
 
 {% endif %}

@@ -21,7 +21,7 @@
         <tbody>
         {% for doctor in doctors %}
             <tr>
-                <td>{{doctor.id}}</td>
+                <td><a href="{% url 'doctor' doctor.id %}">{{doctor.id}}</a></td>
                 <td>{{doctor.name}}</td>
                 <td>{{doctor.mobile}}</td>
                 <td>{{doctor.specialization}}</td>

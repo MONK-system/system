@@ -1,21 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import DoctorRegistrationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from .models import Patient, Doctor, Project, Vitals
+#from .models import File, FileClaim
 from django.contrib import messages
-# Create your views here.
+#from .forms import FileForm  # Import the FileForm
 
-
-#
-#patients = [
-#    {"id" : 1, "name" : "Aliaan"},
-#    {"id" : 2, "name" : "Jonathan"},
-#    {"id" : 3, "name" : "Sondre"},
-#
-#]
 
 
 def home(request):
@@ -27,6 +21,16 @@ def patient(request, pk):
     patient = Patient.objects.get(id=pk)
     context = {'patient':patient}
     return render(request, 'base/patient.html', context)
+
+def doctor(request, pk):
+    doctor = Doctor.objects.get(id=pk)
+    context = {'doctor':doctor}
+    return render(request, 'base/doctor.html', context)
+
+def project(request, pk):
+    project = Project.objects.get(id=pk)
+    context = {'project':project}
+    return render(request, 'base/project.html', context)
 
 def about(request):
     return render(request, "base/about.html")
@@ -190,3 +194,5 @@ def addProject(request):
     
     context = {'doctors' : doctors, 'patients' : patients}
     return render(request, 'base/add_project.html', context)
+
+
