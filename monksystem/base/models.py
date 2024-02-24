@@ -61,7 +61,6 @@ class Vitals(models.Model):
         return self.patient.name
 
 
-
 # Model for the files
 class File(models.Model):
     title = models.CharField(max_length=255)

@@ -13,6 +13,7 @@ from .forms import FileForm  # Import the FileForm
 from django.conf import settings
 from django.shortcuts import redirect
 from django.core.files import File as DjangoFile
+from pathlib import Path
 
 
 def home(request):
@@ -199,12 +200,21 @@ def addProject(request):
     return render(request, 'base/add_project.html', context)
 
 
-
 @login_required
 def home(request):
     files = File.objects.all()
-    context = {'files': files}
+    if request.method == 'POST':
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = FileForm()
+    context = {'files': files, 'form': form}
     return render(request, 'base/home.html', context)
+
+
+
 
 @login_required
 def upload_file(request):
@@ -226,11 +236,20 @@ def claim_file(request, file_id):
 
 
 def import_files(request):
-    directory_path = '/path/to/your/files'  # Update this path
+    directory_path = Path("nihon_kohden_files")
+    files_imported = False
+
     for filename in os.listdir(directory_path):
-        if not File.objects.filter(title=filename).exists():  # Check if file is not already imported
-            file_path = os.path.join(directory_path, filename)
-            with open(file_path, 'rb') as file:
-                django_file = DjangoFile(file)
+        file_path = directory_path / filename
+        if not File.objects.filter(title=filename).exists():
+            with file_path.open('rb') as file:
+                django_file = DjangoFile(file, name=filename)
                 File.objects.create(title=filename, file=django_file)
-    return redirect('home')
+                files_imported = True  # Mark as true if at least one file is imported
+
+    if not files_imported:
+        # If no files were imported, return a message saying so
+        return HttpResponse("No more files to import.")
+    else:
+        # If some files were imported, you can redirect or return a success message
+        return HttpResponse("Files imported successfully.")

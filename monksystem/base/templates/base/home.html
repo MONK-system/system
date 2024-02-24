@@ -13,10 +13,16 @@
 </ul>
 
 
+<!-- File upload form -->
+<form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
+    {% csrf_token %}
+    <input type="submit" value="Import file">
+  </form>
+  
 
-<!-- Add an Import button -->
-<a href="{% url 'import_files' %}" class="btn btn-primary">Import Files</a>
 
+<!--<a href="{% url 'import_files' %}" class="btn btn-primary">Import Files</a>
+-->
 
 {% endblock %}
 
