@@ -1,3 +1,4 @@
+import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -6,10 +7,12 @@ from .models import DoctorRegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from .models import Patient, Doctor, Project, Vitals
-#from .models import File, FileClaim
+from .models import File, FileClaim
 from django.contrib import messages
-#from .forms import FileForm  # Import the FileForm
-
+from .forms import FileForm  # Import the FileForm
+from django.conf import settings
+from django.shortcuts import redirect
+from django.core.files import File as DjangoFile
 
 
 def home(request):
@@ -196,3 +199,38 @@ def addProject(request):
     return render(request, 'base/add_project.html', context)
 
 
+
+@login_required
+def home(request):
+    files = File.objects.all()
+    context = {'files': files}
+    return render(request, 'base/home.html', context)
+
+@login_required
+def upload_file(request):
+    if request.method == 'POST':
+        form = FileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = FileForm()
+    return render(request, 'base/upload_file.html', {'form': form})
+
+@login_required
+def claim_file(request, file_id):
+    file_to_claim = get_object_or_404(File, id=file_id)
+    doctor = request.user.doctor  # Assuming you have a one-to-one link between User and Doctor
+    FileClaim.objects.create(doctor=doctor, file=file_to_claim)
+    return redirect('home')
+
+
+def import_files(request):
+    directory_path = '/path/to/your/files'  # Update this path
+    for filename in os.listdir(directory_path):
+        if not File.objects.filter(title=filename).exists():  # Check if file is not already imported
+            file_path = os.path.join(directory_path, filename)
+            with open(file_path, 'rb') as file:
+                django_file = DjangoFile(file)
+                File.objects.create(title=filename, file=django_file)
+    return redirect('home')

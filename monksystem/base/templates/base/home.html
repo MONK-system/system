@@ -5,10 +5,18 @@
 
 <h2>Nihon Kohden Files</h2>
 <ul>
-    <!--
+    
     {% for file in files %}
     <li>{{ file.title }} - <a href="{% url 'claim_file' file.id %}">Claim</a></li>
     {% endfor %}
-    -->
+    
 </ul>
+
+
+
+<!-- Add an Import button -->
+<a href="{% url 'import_files' %}" class="btn btn-primary">Import Files</a>
+
+
 {% endblock %}
+
