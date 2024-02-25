@@ -3,15 +3,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import DoctorRegistrationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
-from .models import Patient, Doctor, Project, Vitals
-from .models import File, FileClaim
+from .models import Patient, Doctor, Project, Vitals, File, FileClaim
 from django.contrib import messages
-from .forms import FileForm  # Import the FileForm
+from .forms import FileForm, DoctorRegistrationForm  # Import the FileForm
 from django.conf import settings
-from django.shortcuts import redirect
 from django.core.files import File as DjangoFile
 from pathlib import Path
 
@@ -103,14 +100,13 @@ def registerPage(request):
             user.username = user.username.lower() # Now that the user is created, we can access their credentials, like username and password. We lowercase the username of the user. 
             user.save() # saves the user. 
             
-            
             # Now, use the extra fields to create a Doctor instance
             Doctor.objects.create(
                 user=user,
                 name=form.cleaned_data.get('name'),
                 mobile=form.cleaned_data.get('mobile'),
                 specialization=form.cleaned_data.get('specialization'),
-            )
+            ) 
             
             login(request, user) # logs the user in.
             return redirect('home') # sends the user back to the home page.
@@ -214,8 +210,6 @@ def home(request):
     return render(request, 'base/home.html', context)
 
 
-
-
 @login_required
 def upload_file(request):
     if request.method == 'POST':
@@ -230,10 +224,21 @@ def upload_file(request):
 @login_required
 def claim_file(request, file_id):
     file_to_claim = get_object_or_404(File, id=file_id)
-    doctor = request.user.doctor  # Assuming you have a one-to-one link between User and Doctor
-    FileClaim.objects.create(doctor=doctor, file=file_to_claim)
-    return redirect('home')
 
+    # Check if the file has already been claimed
+    if FileClaim.objects.filter(file=file_to_claim).exists():
+        messages.error(request, "This file has already been claimed.")
+        return redirect('home')
+
+    try:
+        doctor = request.user.doctor
+    except Doctor.DoesNotExist:
+        messages.error(request, "You do not have a doctor profile yet. Please create one.")
+        return redirect('home')
+    
+    FileClaim.objects.create(doctor=doctor, file=file_to_claim)
+    messages.success(request, "File claimed successfully.")
+    return redirect('home')
 
 def import_files(request):
     directory_path = Path("nihon_kohden_files")

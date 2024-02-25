@@ -1,28 +1,57 @@
 {% extends 'main.html' %}
 
 {% block content %}
-<h1>Home template</h1>
 
-<h2>Nihon Kohden Files</h2>
-<ul>
-    
-    {% for file in files %}
-    <li>{{ file.title }} - <a href="{% url 'claim_file' file.id %}">Claim</a></li>
-    {% endfor %}
-    
-</ul>
+<p>Hello {{ user }}</p>
 
+<div class="container" style="margin-top:50px">
+    <h2 class="text-center">Nihon Kohden Files</h2>
+    <br>
 
-<!-- File upload form -->
-<form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
-    {% csrf_token %}
-    <input type="submit" value="Import file">
-  </form>
-  
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>File ID</th>
+                        <th>Title</th>
+                        <th>Claimed By</th>
+                        <th>Claimed At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-
-<!--<a href="{% url 'import_files' %}" class="btn btn-primary">Import Files</a>
--->
+                <tbody>
+                {% for file in files %}
+                    <tr>
+                        <td>{{ file.id }}</td>
+                        <td>{{ file.title }}</td>
+                        {% with file.fileclaim_set.first as claim %}
+                            {% if claim %}
+                                <td>{{ claim.doctor.name }}</td>
+                                <td>{{ claim.claimed_at|date:"Y-m-d H:i" }}</td>
+                                <td>Already Claimed</td>
+                            {% else %}
+                                <td>Not Claimed</td>
+                                <td>N/A</td>
+                                <td><a href="{% url 'claim_file' file.id %}" class="btn btn-primary">Claim</a></td>
+                            {% endif %}
+                        {% endwith %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <!-- File upload form aligned to the bottom-left -->
+            <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}" style="width: fit-content;">
+                {% csrf_token %}
+                <input type="submit" value="Import file" class="btn btn-secondary mt-2">
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
-
