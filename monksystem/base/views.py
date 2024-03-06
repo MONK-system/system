@@ -40,6 +40,24 @@ def contact(request):
     return render(request, "base/contact.html")
 
 
+def file(request, file_id):
+    file = get_object_or_404(File, id=file_id)
+    is_text_file = file.file.name.endswith('.txt')
+    
+    if is_text_file:
+        try:
+            with open(file.file.path, 'r') as f:
+                content = f.read()
+        except Exception as e:
+            content = f"Error reading file: {e}"
+    else:
+        content = None
+
+    context = {'file': file, 'content': content, 'is_text_file': is_text_file}
+    return render(request, 'base/file.html', context)
+
+
+
 
 # Function for logging in a user
 def loginPage(request):
@@ -258,3 +276,5 @@ def import_files(request):
     else:
         # If some files were imported, you can redirect or return a success message
         return HttpResponse("Files imported successfully.")
+    
+    

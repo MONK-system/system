@@ -32,5 +32,7 @@ urlpatterns = [
     path('upload/', views.upload_file, name='upload_file'),
     path('claim/<int:file_id>/', views.claim_file, name='claim_file'),
     path('import/', views.import_files, name='import_files'),
+    path('file/<int:file_id>/', views.file, name='file'),
+
 
 ]

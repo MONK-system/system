@@ -24,7 +24,7 @@
                 <tbody>
                 {% for file in files %}
                     <tr>
-                        <td>{{ file.id }}</td>
+                        <td><a href="{% url 'file' file.id %}">{{ file.id }}</a></td>
                         <td>{{ file.title }}</td>
                         {% with file.fileclaim_set.first as claim %}
                             {% if claim %}
