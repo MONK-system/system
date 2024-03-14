@@ -39,6 +39,8 @@ $(document).ready(function() {
                     <a class="dropdown-item" href="{% url 'viewProject' %}">View Project</a>
                 </div>
             </li>
+            
+            <!--
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Doctor</a>
                 <div class="dropdown-menu">
@@ -46,6 +48,8 @@ $(document).ready(function() {
                     <a class="dropdown-item" href="{% url 'viewDoctor' %}">View Doctor</a>
                 </div>
             </li>
+            -->
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Patient</a>
                 <div class="dropdown-menu">
@@ -53,7 +57,12 @@ $(document).ready(function() {
                     <a class="dropdown-item" href="{% url 'viewPatient' %}">View Patient</a>
                 </div>
             </li>
+
+            <li class="nav-item"><a class="nav-link" href="{% url 'viewDoctor' %}">Doctors</a></li>
+
             <li class="nav-item"><a class="nav-link" href="{% url 'viewVitals' %}">Vitals</a></li>
+
+
             {% endif %}
         </ul>
         <ul class="navbar-nav ml-auto">

@@ -94,7 +94,7 @@ def loginPage(request):
         # Logs the user in if there is one, and returns home. 
         if user is not None:
             login(request, user)
-            messages.success(request, 'Logged in successfully.')  # Add success message here
+            messages.success(request, f'Logged in successfully as {user.username}.') 
             return redirect('home')
         else:
             messages.error(request, 'Username or password does not exist')
@@ -262,7 +262,7 @@ def claim_file(request, file_id):
     try:
         doctor = request.user.doctor
     except Doctor.DoesNotExist:
-        messages.error(request, "You do not have a doctor profile yet. Please create one.")
+        messages.error(request, "You are not registered as a doctor. Only doctors can claim files.")
         return redirect('home')
     
     FileClaim.objects.create(doctor=doctor, file=file_to_claim)
