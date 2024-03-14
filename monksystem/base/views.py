@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -42,6 +43,13 @@ def contact(request):
 
 def file(request, file_id):
     file = get_object_or_404(File, id=file_id)
+    try:
+        claim = FileClaim.objects.get(file=file, doctor__user=request.user)
+    except FileClaim.DoesNotExist:
+        # If the file is not claimed by the current user, return an error or redirect
+        return HttpResponseForbidden("You do not have permission to view this file.")
+
+    # If the user has claimed the file, proceed with showing the content
     is_text_file = file.file.name.endswith('.txt')
     
     if is_text_file:
@@ -55,8 +63,6 @@ def file(request, file_id):
 
     context = {'file': file, 'content': content, 'is_text_file': is_text_file}
     return render(request, 'base/file.html', context)
-
-
 
 
 # Function for logging in a user

@@ -22,11 +22,15 @@
                 </thead>
 
                 <tbody>
-                {% for file in files %}
+                    {% for file in files %}
                     <tr>
-                        <td><a href="{% url 'file' file.id %}">{{ file.id }}</a></td>
-                        <td>{{ file.title }}</td>
                         {% with file.fileclaim_set.first as claim %}
+                            {% if claim and claim.doctor.user == user %}
+                                <td><a href="{% url 'file' file.id %}">{{ file.id }}</a></td>
+                            {% else %}
+                                <td>{{ file.id }}</td>
+                            {% endif %}
+                            <td>{{ file.title }}</td>
                             {% if claim %}
                                 <td>{{ claim.doctor.name }}</td>
                                 <td>{{ claim.claimed_at|date:"Y-m-d H:i" }}</td>
@@ -39,6 +43,7 @@
                         {% endwith %}
                     </tr>
                 {% endfor %}
+                
                 </tbody>
             </table>
         </div>
