@@ -244,6 +244,7 @@ def upload_file(request):
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "File uploaded successfully.") 
             return redirect('home')
     else:
         form = FileForm()
