@@ -258,23 +258,26 @@ def claim_file(request, file_id):
     messages.success(request, "File claimed successfully.")
     return redirect('home')
 
+
 def import_files(request):
-    directory_path = Path("nihon_kohden_files")
+    # Build the directory path dynamically using BASE_DIR
+    directory_path = Path(settings.BASE_DIR) / "nihon_kohden_files"
     files_imported = False
 
-    for filename in os.listdir(directory_path):
-        file_path = directory_path / filename
-        if not File.objects.filter(title=filename).exists():
-            with file_path.open('rb') as file:
-                django_file = DjangoFile(file, name=filename)
-                File.objects.create(title=filename, file=django_file)
-                files_imported = True  # Mark as true if at least one file is imported
+    # Check if directory exists before listing files
+    if directory_path.exists() and directory_path.is_dir():
+        for filename in os.listdir(directory_path):
+            file_path = directory_path / filename
+            if not File.objects.filter(title=filename).exists():
+                with file_path.open('rb') as file:
+                    django_file = DjangoFile(file, name=filename)
+                    File.objects.create(title=filename, file=django_file)
+                    files_imported = True  # Mark as true if at least one file is imported
+    else:
+        return HttpResponse("The directory does not exist.")
 
     if not files_imported:
-        # If no files were imported, return a message saying so
         return HttpResponse("No more files to import.")
     else:
-        # If some files were imported, you can redirect or return a success message
         return HttpResponse("Files imported successfully.")
-    
     
