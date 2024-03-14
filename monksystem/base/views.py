@@ -94,6 +94,7 @@ def loginPage(request):
         # Logs the user in if there is one, and returns home. 
         if user is not None:
             login(request, user)
+            messages.success(request, 'Logged in successfully.')  # Add success message here
             return redirect('home')
         else:
             messages.error(request, 'Username or password does not exist')
@@ -181,7 +182,8 @@ def addDoctor(request):
         specialization = request.POST['specialization']
         
         Doctor.objects.create(name=name, mobile=contact, specialization = specialization)
-        return redirect("home")
+        messages.success(request, "Doctor added successfully.")
+        return redirect("viewDoctor")
     
     return render(request, 'base/add_doctor.html')
 
@@ -195,7 +197,8 @@ def addPatient(request):
         mobile = request.POST['mobile']
         
         Patient.objects.create(name=name, gender=gender, address=address, mobile=mobile)
-        return redirect("home")
+        messages.success(request, "Patient added successfully.")
+        return redirect("viewPatient")
     
     return render(request, 'base/add_patient.html')
 
@@ -214,7 +217,8 @@ def addProject(request):
         patient = Patient.objects.filter(name=p).first()
                 
         Project.objects.create(rekNummer = rekNummer, description = description, doctor = doctor, patient = patient)
-        return redirect("home")
+        messages.success(request, "Project added successfully.")
+        return redirect("viewProject")
     
     context = {'doctors' : doctors, 'patients' : patients}
     return render(request, 'base/add_project.html', context)
