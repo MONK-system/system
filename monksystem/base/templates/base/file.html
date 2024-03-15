@@ -1,12 +1,25 @@
-{% extends 'main.html' %} 
+{% extends 'main.html' %}
 
 {% block content %}
-<div class="container">
-    <h2>File: {{ file.title }}</h2>
-    {% if is_text_file %}
-    <pre>{{ content }}</pre>
-    {% else %}
-    <p>Unsupported file format for direct display. <a href="{{ file.file.url }}" target="_blank">Download instead</a></p>
-    {% endif %}
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+           <strong> File Information </strong>
+        </div>
+        <div class="card-body">
+            <!-- Use mb (margin-bottom) utility to add space below the title -->
+            <h5 class="card-title mb-4">{{ file.title }}</h5>
+            
+            {% if is_text_file %}
+                <!-- Additional mb utility for space below subtitle -->
+                <h6 class="card-subtitle mb-2 text-muted mb-3">File Content:</h6>
+                <!-- Use p (padding) utility inside pre tag for internal spacing -->
+                <pre class="card-text p-3">{{ content }}</pre>
+            {% else %}
+                <p class="card-text mb-3">Unsupported file format for direct display.</p>
+                <a href="{{ file.file.url }}" class="btn btn-primary" target="_blank">Download File</a>
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}
