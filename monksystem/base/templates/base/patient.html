@@ -1,11 +1,16 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
-<p>Name : {{patient.name}}</p>
-<p>Gender : {{patient.gender}}</p>
-<p>Address : {{patient.address}}</p>
-<p>Contact : {{patient.mobile}}</p>
-
-
+<div class="container mt-5">
+    <div class="card">
+        <h5 class="card-header">Patient Information</h5>
+        <div class="card-body">
+            <h5 class="card-title">{{ patient.name }}</h5>
+            <p class="card-text"><strong>ID:</strong> {{ patient.id }}</p>
+            <p class="card-text"><strong>Gender:</strong> {{ patient.gender }}</p>
+            <p class="card-text"><strong>Address:</strong> {{ patient.address }}</p>
+            <p class="card-text"><strong>Contact:</strong> {{ patient.mobile }}</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
