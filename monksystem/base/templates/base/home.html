@@ -30,7 +30,7 @@
                             {% endif %}
                             <td>{{ file.title }}</td>
                             {% if claim %}
-                                <td>{{ claim.doctor.name }}</td>
+                                <td><a href="{% url 'doctor' claim.doctor.id %}">{{ claim.doctor.name }}</a></td>
                                 <td>{{ claim.claimed_at|date:"Y-m-d H:i" }}</td>
                                 <td>Already Claimed</td>
                             {% else %}
