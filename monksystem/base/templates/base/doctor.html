@@ -1,10 +1,17 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
-<p>User : {{doctor.user.username}}</p>
-<p>Name : {{doctor.name}}</p>
-<p>Contact : {{doctor.mobile}}</p>
-<p>Specialization : {{doctor.specialization}}</p>
-
+<div class="container mt-5">
+    <div class="card">
+        <h5 class="card-header">Doctor Information</h5>
+        <div class="card-body">
+            
+            <h5 class="card-title">{{ doctor.name }}</h5>
+            <p class="card-text"><strong>ID:</strong> {{ doctor.id }}</p> <!-- Display Doctor ID -->
+            <p class="card-text"><strong>Username:</strong> {{ doctor.user.username }}</p>
+            <p class="card-text"><strong>Contact:</strong> {{ doctor.mobile }}</p>
+            <p class="card-text"><strong>Specialization:</strong> {{ doctor.specialization }}</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
