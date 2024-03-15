@@ -1,12 +1,18 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
-<p>REK-Nummer : {{project.rekNummer}}</p>
-<p>Description : {{project.description}}</p>
-<p>Doctor : {{project.doctor}}</p>
-<p>Patient : {{project.patient}}</p>
-<p>Updated : {{project.updated}}</p>
-<p>Created : {{project.created}}</p>
-
+<div class="container mt-5">
+    <div class="card">
+        <h5 class="card-header">Project Details</h5>
+        <div class="card-body">
+            <h5 class="card-title">{{ project.rekNummer }}</h5>
+            <p class="card-text"><strong>Project ID:</strong> {{ project.id }}</p>
+            <p class="card-text"><strong>Description:</strong> {{ project.description }}</p>
+            <p class="card-text"><strong>Doctor:</strong> {{ project.doctor.name }}</p>  
+            <p class="card-text"><strong>Patient:</strong> {{ project.patient.name }}</p>
+            <p class="card-text"><strong>Updated:</strong> {{ project.updated|date:"Y-m-d H:i" }}</p>
+            <p class="card-text"><strong>Created:</strong> {{ project.created|date:"Y-m-d H:i" }}</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
