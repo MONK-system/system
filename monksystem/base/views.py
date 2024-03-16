@@ -221,29 +221,8 @@ def addProject(request):
         messages.success(request, "Project added successfully.")
         return redirect("viewProject")
     
-    # Load doctors and patients for the form (not shown in the code snippet)
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()
-    return render(request, 'base/add_project.html', {'doctors': doctors, 'patients': patients})
-
-
-#def addProject(request):
-    
-    doctors = Doctor.objects.all()
-    patients = Patient.objects.all()
-    
-    if request.method == "POST":
-        rekNummer = request.POST['rekNummer']
-        description = request.POST['description']
-        d = request.POST['doctor']
-        p = request.POST['patient']
-        doctor = Doctor.objects.filter(name=d).first()
-        patient = Patient.objects.filter(name=p).first()
-                
-        Project.objects.create(rekNummer = rekNummer, description = description, doctor = doctor, patient = patient)
-        messages.success(request, "Project added successfully.")
-        return redirect("viewProject")
-    
     context = {'doctors' : doctors, 'patients' : patients}
     return render(request, 'base/add_project.html', context)
 

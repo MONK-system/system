@@ -9,7 +9,11 @@
     {% for project in projects %}
     <div class="card mb-3">
         <div class="card-header">
-            <a href="{% url 'project' project.id %}">Project: {{ project.rekNummer }} </a> - {{ project.description }}
+            {% if request.user.doctor in project.doctors.all %}
+                <a href="{% url 'project' project.id %}">Project: {{ project.rekNummer }}</a> - {{ project.description }}
+            {% else %}
+                <span>Project: {{ project.rekNummer }} </span> - {{ project.description }}
+            {% endif %}
         </div>
         <div class="card-body">
             <p class="card-text"><strong>Doctors involved:</strong></p>
@@ -28,7 +32,11 @@
                             <h5 class="card-title">{{ patient.name }}</h5>
                             <p class="card-text">Gender: {{ patient.gender }}</p>
                             <p class="card-text">Contact: {{ patient.mobile }}</p>
-                            <a href="{% url 'patient' patient.id %}" class="btn btn-primary">View Patient</a>
+                            {% if request.user.doctor in project.doctors.all %}
+                                <a href="{% url 'patient' patient.id %}" class="btn btn-primary">View Patient</a>
+                            {% else %}
+                                <button class="btn btn-secondary" disabled>View Patient</button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
