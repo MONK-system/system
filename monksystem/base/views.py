@@ -1,6 +1,7 @@
 import os
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
+from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseForbidden
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
@@ -204,6 +205,29 @@ def addPatient(request):
 
 
 def addProject(request):
+    if request.method == "POST":
+        rekNummer = request.POST.get('rekNummer')
+        description = request.POST.get('description')
+        doctors_ids = request.POST.getlist('doctors')  # Assuming you're getting IDs of doctors
+        patients_ids = request.POST.getlist('patients')  # Assuming you're getting IDs of patients
+
+        # Create project instance
+        project = Project.objects.create(rekNummer=rekNummer, description=description)
+
+        # Set doctors and patients for the project
+        project.doctors.set(Doctor.objects.filter(id__in=doctors_ids))
+        project.patients.set(Patient.objects.filter(id__in=patients_ids))
+
+        messages.success(request, "Project added successfully.")
+        return redirect("viewProject")
+    
+    # Load doctors and patients for the form (not shown in the code snippet)
+    doctors = Doctor.objects.all()
+    patients = Patient.objects.all()
+    return render(request, 'base/add_project.html', {'doctors': doctors, 'patients': patients})
+
+
+#def addProject(request):
     
     doctors = Doctor.objects.all()
     patients = Patient.objects.all()

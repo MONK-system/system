@@ -8,8 +8,25 @@
             <h5 class="card-title">{{ project.rekNummer }}</h5>
             <p class="card-text"><strong>Project ID:</strong> {{ project.id }}</p>
             <p class="card-text"><strong>Description:</strong> {{ project.description }}</p>
-            <p class="card-text"><strong>Doctor:</strong> {{ project.doctor.name }}</p>  
-            <p class="card-text"><strong>Patient:</strong> {{ project.patient.name }}</p>
+            
+            <!-- Displaying multiple doctors -->
+            <p class="card-text"><strong>Doctors involved:</strong>
+                {% for doctor in project.doctors.all %}
+                    {{ doctor.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No doctors assigned.
+                {% endfor %}
+            </p>
+            
+            <!-- Displaying multiple patients -->
+            <p class="card-text"><strong>Patients involved:</strong>
+                {% for patient in project.patients.all %}
+                    {{ patient.name }}{% if not forloop.last %}, {% endif %}
+                {% empty %}
+                    No patients assigned.
+                {% endfor %}
+            </p>
+            
             <p class="card-text"><strong>Updated:</strong> {{ project.updated|date:"Y-m-d H:i" }}</p>
             <p class="card-text"><strong>Created:</strong> {{ project.created|date:"Y-m-d H:i" }}</p>
         </div>

@@ -1,40 +1,36 @@
 {% extends 'main.html' %}
 
-
 {% block content %}
-<div class = "container">
+<div class="container">
     <br>
-    <h2 class = "text-center">Add Project</h2>
-    <form method = "POST" action ="">
+    <h2 class="text-center">Add Project</h2>
+    <form method="POST" action="">
         {% csrf_token %}
-
         
         <label>REK nummer</label>
-        <input type ="text" class = "form-control" name="rekNummer" required/>
+        <input type="text" class="form-control" name="rekNummer" required/>
         
-        <label>Doctor name</label>
-        <select name = "doctor" class = "form-control">
+        <!-- Updated Doctor selection -->
+        <label>Doctor(s)</label>
+        <select name="doctors" class="form-control" multiple>
             {% for doctor in doctors %}
-            <option>
-                <option value = "{{doctor.name}}">{{doctor.name}} [{{doctor.id}}]</option>
-            </option>
+            <option value="{{doctor.id}}">{{doctor.name}} [{{doctor.id}}]</option>
             {% endfor %}
         </select>
         
-        <label>Patient name</label>
-        <select name = "patient" class = "form-control">
+        <!-- Updated Patient selection -->
+        <label>Patient(s)</label>
+        <select name="patients" class="form-control" multiple>
             {% for patient in patients %}
-            <option value = "{{patient.name}}">{{patient.name}} [{{patient.id}}]</option>
+            <option value="{{patient.id}}">{{patient.name}} [{{patient.id}}]</option>
             {% endfor %}
         </select>
         
         <label>Description</label>
-        <input type ="text" class = "form-control" name="description" required/>
+        <input type="text" class="form-control" name="description" required/>
         
         <br>
-        <input type ="submit" value ="Submit" class = "form-control btn btn-primary" />
+        <input type="submit" value="Submit" class="form-control btn btn-primary" />
     </form>
-
 </div>
-
 {% endblock %}
