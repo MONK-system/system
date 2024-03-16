@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-
-
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null = True)
     name = models.CharField(max_length=50)
@@ -25,13 +23,8 @@ class Patient(models.Model):
         return self.name
 
 class Project(models.Model):
-    rekNummer = models.TextField(null = True, blank = True) # Description of appointment. Makes sure the values can be left blank. 
-    description = models.TextField(null = True, blank = True) # Description of appointment. Makes sure the values can be left blank. 
-    #doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE) 
-    #patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    
-    #doctor = models.ManyToManyField(Doctor)
-    #patient = models.ManyToManyField(Patient)
+    rekNummer = models.TextField(null = True, blank = True) 
+    description = models.TextField(null = True, blank = True) # Description of project. Makes sure the values can be left blank. 
     
     doctors = models.ManyToManyField(Doctor, related_name='projects')
     patients = models.ManyToManyField(Patient, related_name='projects')
