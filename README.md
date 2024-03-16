@@ -19,14 +19,18 @@ pip install virtualenv
 
 --> Then we create our virtual environment
 ````
-virutalenv {your environment name}
+virtualenv {your environment name}
 ````
 
 --> Activate the virtual environment: 
+Windows:
 ````
 {your environment name}\scripts\activate
 ````
-
+Linux:
+````
+source {your environment name}/bin/activate
+````
 
 ## Install the requirements: 
 ````
