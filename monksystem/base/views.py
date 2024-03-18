@@ -208,8 +208,8 @@ def addProject(request):
     if request.method == "POST":
         rekNummer = request.POST.get('rekNummer')
         description = request.POST.get('description')
-        doctors_ids = request.POST.getlist('doctors')  # Assuming you're getting IDs of doctors
-        patients_ids = request.POST.getlist('patients')  # Assuming you're getting IDs of patients
+        doctors_ids = request.POST.getlist('doctors')  
+        patients_ids = request.POST.getlist('patients')  
 
         # Create project instance
         project = Project.objects.create(rekNummer=rekNummer, description=description)
