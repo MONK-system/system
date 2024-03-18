@@ -142,7 +142,7 @@ def registerPage(request):
     context = {'form' : form}
     return render(request,'base/login_register.html', context)
 
-
+@login_required
 def viewDoctor(request):
     
     doctors = Doctor.objects.all()
@@ -150,7 +150,7 @@ def viewDoctor(request):
     context = {'doctors' : doctors}
     return render(request,'base/view_doctor.html', context)
     
-
+@login_required
 def viewPatient(request):
     
     patients = Patient.objects.all()
@@ -158,7 +158,7 @@ def viewPatient(request):
     context = {'patients' : patients}
     return render(request,'base/view_patient.html', context)
     
-
+@login_required
 def viewProject(request):
     
     projects = Project.objects.all()
@@ -166,7 +166,7 @@ def viewProject(request):
     context = {'projects' : projects}
     return render(request,'base/view_project.html', context)
     
-
+@login_required
 def viewVitals(request):
     
     vitals = Vitals.objects.all()
@@ -174,7 +174,7 @@ def viewVitals(request):
     context = {'vitals' : vitals}
     return render(request,'base/view_vitals.html', context)
 
-
+@login_required
 def addDoctor(request):
     
     if request.method == "POST":
@@ -189,6 +189,7 @@ def addDoctor(request):
     return render(request, 'base/add_doctor.html')
 
 
+@login_required
 def addPatient(request):
     
     if request.method == "POST":
@@ -203,7 +204,7 @@ def addPatient(request):
     
     return render(request, 'base/add_patient.html')
 
-
+@login_required
 def addProject(request):
     if request.method == "POST":
         rekNummer = request.POST.get('rekNummer')
@@ -272,7 +273,7 @@ def claim_file(request, file_id):
     messages.success(request, "File claimed successfully.")
     return redirect('home')
 
-
+@login_required
 def import_files(request):
     # Build the directory path dynamically using BASE_DIR
     directory_path = Path(settings.BASE_DIR) / "nihon_kohden_files"
