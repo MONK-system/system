@@ -244,15 +244,23 @@ def home(request):
 
 @login_required
 def upload_file(request):
-    if request.method == 'POST':
+    form = FileForm()
+    if request.method == 'POST' and 'submitted' in request.POST:
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, "File uploaded successfully.") 
+            messages.success(request, "File uploaded successfully.")
             return redirect('home')
-    else:
-        form = FileForm()
+        else:
+            # Check explicitly for empty title or file when the form is submitted
+            if not request.FILES.get('file') or not request.POST.get('title'):
+                messages.error(request, "Both title and file are required.")
+            else:
+                # Handle other form errors
+                messages.error(request, "Please correct the error below.")
+
     return render(request, 'base/upload_file.html', {'form': form})
+
 
 @login_required
 def claim_file(request, file_id):
