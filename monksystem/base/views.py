@@ -158,14 +158,30 @@ def viewPatient(request):
     context = {'patients' : patients}
     return render(request,'base/view_patient.html', context)
     
+#@login_required
+#def viewProject(request):
+#    
+#    projects = Project.objects.all()
+#    
+#    context = {'projects' : projects}
+#    return render(request,'base/view_project.html', context)
+    
 @login_required
 def viewProject(request):
+    # Check if the logged-in user is associated with a Doctor instance
+    try:
+        doctor = request.user.doctor
+        # Filter projects where the current user's doctor instance is in the project's doctors
+        projects = Project.objects.filter(doctors=doctor)
+    except Doctor.DoesNotExist:
+        # If the user does not have an associated Doctor instance, return an empty project list
+        projects = Project.objects.none()
     
-    projects = Project.objects.all()
+    context = {'projects': projects}
+    return render(request, 'base/view_project.html', context)
     
-    context = {'projects' : projects}
-    return render(request,'base/view_project.html', context)
-    
+
+
 @login_required
 def viewVitals(request):
     
