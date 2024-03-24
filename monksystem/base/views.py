@@ -13,6 +13,7 @@ from .forms import FileForm, DoctorRegistrationForm  # Import the FileForm
 from django.conf import settings
 from django.core.files import File as DjangoFile
 from pathlib import Path
+from monklib import get_header
 
 
 def home(request):
@@ -51,9 +52,15 @@ def file(request, file_id):
         return HttpResponseForbidden("You do not have permission to view this file.")
 
     # If the user has claimed the file, proceed with showing the content
+    is_MFER_file = file.file.name.endswith('.MWF')
     is_text_file = file.file.name.endswith('.txt')
-    
-    if is_text_file:
+
+    if is_MFER_file:
+        try:
+            content = get_header(file.file.path)
+        except Exception as e:
+            content = f"Error reading file: {e}"    
+    elif is_text_file:
         try:
             with open(file.file.path, 'r') as f:
                 content = f.read()
@@ -62,7 +69,7 @@ def file(request, file_id):
     else:
         content = None
 
-    context = {'file': file, 'content': content, 'is_text_file': is_text_file}
+    context = {'file': file, 'content': content, 'is_text_file': is_text_file, 'is_MFER_file': is_MFER_file}
     return render(request, 'base/file.html', context)
 
 

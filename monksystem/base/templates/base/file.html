@@ -15,6 +15,11 @@
                 <h6 class="card-subtitle mb-2 text-muted mb-3">File Content:</h6>
                 <!-- Use p (padding) utility inside pre tag for internal spacing -->
                 <pre class="card-text p-3">{{ content }}</pre>
+            {% elif is_MFER_file %}
+                <!-- Additional mb utility for space below subtitle -->
+                <h6 class="card-subtitle mb-2 text-muted mb-3">File Header:</h6>
+                <!-- Use p (padding) utility inside pre tag for internal spacing -->
+                <pre class="card-text p-3">{{ content }}</pre>
             {% else %}
                 <p class="card-text mb-3">Unsupported file format for direct display.</p>
                 <a href="{{ file.file.url }}" class="btn btn-primary" target="_blank">Download File</a>
