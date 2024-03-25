@@ -22,11 +22,11 @@
         <tbody>
         {% for patient in patients %}
             <tr>
-                <td>{{ patient.patient_id }}</td>
+                <td><a href="{% url 'patient' patient.patient_id %}">{{ patient.patient_id }}</a></td>
                 <td>{{ patient.name }}</td>
                 <td>{{ patient.gender }}</td>
                 <td>{{ patient.birth_date|date:"Y-m-d" }}</td> 
-                <td>{{ patient.file.id }}</td> 
+                <td><a href="{% url 'file' patient.file.id %}">{{ patient.file.id }}</a></td> 
             </tr>
         {% empty %}
             <tr>

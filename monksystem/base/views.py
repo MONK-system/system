@@ -9,13 +9,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login,logout
 from .models import Patient, Doctor, Project, Vitals, File, FileClaim
 from django.contrib import messages
-from .forms import FileForm, DoctorRegistrationForm  # Import the FileForm
+from .forms import FileForm, DoctorRegistrationForm  
 from django.conf import settings
 from django.core.files import File as DjangoFile
 from pathlib import Path
 from monklib import get_header
-from .utils import parse_mwf_file
 from datetime import datetime
+from django.db.models import Q
 
 
 
@@ -167,15 +167,8 @@ def viewPatient(request):
     
     context = {'patients' : patients}
     return render(request,'base/view_patient.html', context)
-    
-#@login_required
-#def viewProject(request):
-#    
-#    projects = Project.objects.all()
-#    
-#    context = {'projects' : projects}
-#    return render(request,'base/view_project.html', context)
-    
+
+
 @login_required
 def viewProject(request):
     # Check if the logged-in user is associated with a Doctor instance
@@ -190,7 +183,6 @@ def viewProject(request):
     context = {'projects': projects}
     return render(request, 'base/view_project.html', context)
     
-
 
 @login_required
 def viewVitals(request):
