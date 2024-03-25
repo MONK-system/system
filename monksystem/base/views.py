@@ -25,7 +25,7 @@ def home(request):
     return render(request, 'base/home.html', context)
 
 def patient(request, pk):
-    patient = Patient.objects.get(id=pk)
+    patient = Patient.objects.get(patient_id=pk)
     context = {'patient':patient}
     return render(request, 'base/patient.html', context)
 
