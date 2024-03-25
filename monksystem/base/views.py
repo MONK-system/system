@@ -209,18 +209,34 @@ def addDoctor(request):
 
 @login_required
 def addPatient(request):
-    
     if request.method == "POST":
-        name = request.POST['name']
-        gender = request.POST['gender']
-        address = request.POST['address']
-        mobile = request.POST['mobile']
-        
-        Patient.objects.create(name=name, gender=gender, address=address, mobile=mobile)
-        messages.success(request, "Patient added successfully.")
-        return redirect("viewPatient")
-    
-    return render(request, 'base/add_patient.html')
+        patient_id = request.POST.get('patient_id')
+        name = request.POST.get('name')
+        gender = request.POST.get('gender')
+        birth_date = request.POST.get('birth_date')
+        file_id = request.POST.get('file_id') or None
+
+        # Handle the optional file association
+        file_instance = None
+        if file_id:
+            file_instance = File.objects.get(id=file_id)
+
+        try:
+            Patient.objects.create(
+                patient_id=patient_id,
+                name=name,
+                gender=gender,
+                birth_date=birth_date if birth_date else None,  # Handle empty birth_date
+                file=file_instance
+            )
+            messages.success(request, "Patient added successfully.")
+            return redirect("viewPatient")
+        except Exception as e:
+            messages.error(request, f"An error occurred: {str(e)}")
+
+    # If GET request or form not valid, render the form page again
+    files = File.objects.all()  # Provide list of files for the form
+    return render(request, 'base/add_patient.html', {'files': files})
 
 @login_required
 def addProject(request):
