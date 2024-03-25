@@ -1,6 +1,8 @@
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
+from django.utils.timezone import now
+
 
 # Create your models here.
 
@@ -13,14 +15,27 @@ class Doctor(models.Model):
     def __str__(self):
         return self.name
 
+
+# Model for the files
+class File(models.Model):
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to='nihon_kohden_files/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
 class Patient(models.Model):
+    patient_id = models.CharField(max_length=50, unique=True, null=True)
     name = models.CharField(max_length=50)
     gender = models.CharField(max_length=10)
-    address = models.CharField(max_length=100)
-    mobile = models.IntegerField(null=True)
- 
+    birth_date = models.DateField(null=True, blank=True)
+    file = models.ForeignKey(File, null=True, on_delete=models.CASCADE, related_name='patients')
+
     def __str__(self):
-        return self.name
+        return f"{self.patient_id} - {self.name}"
+
+
 
 class Project(models.Model):
     rekNummer = models.TextField(null = True, blank = True) 
@@ -49,15 +64,6 @@ class Vitals(models.Model):
     def __str__(self):
         return self.patient.name
 
-
-# Model for the files
-class File(models.Model):
-    title = models.CharField(max_length=255)
-    file = models.FileField(upload_to='nihon_kohden_files/')
-    uploaded_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
 
 # Model for file claims
 class FileClaim(models.Model):

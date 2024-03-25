@@ -14,6 +14,9 @@ from django.conf import settings
 from django.core.files import File as DjangoFile
 from pathlib import Path
 from monklib import get_header
+from .utils import parse_mwf_file
+from datetime import datetime
+
 
 
 def home(request):
@@ -287,6 +290,7 @@ def upload_file(request):
 
 @login_required
 def claim_file(request, file_id):
+    # Attempt to claim the file
     file_to_claim = get_object_or_404(File, id=file_id)
 
     # Check if the file has already been claimed
@@ -299,10 +303,53 @@ def claim_file(request, file_id):
     except Doctor.DoesNotExist:
         messages.error(request, "You are not registered as a doctor. Only doctors can claim files.")
         return redirect('home')
-    
+
+    # Proceed with claiming the file
     FileClaim.objects.create(doctor=doctor, file=file_to_claim)
     messages.success(request, "File claimed successfully.")
+
+    # Process the file if it is an MWF file
+    if file_to_claim.file.name.endswith('.MWF'):
+        try:
+            # Use the monklib module to get the header data
+            header = get_header(file_to_claim.file.path)
+
+            # Extract patient information from the header
+            patient_id = header.patientID
+            patient_name = header.patientName
+            patient_sex = header.patientSex
+            birth_date_str = header.birthDateISO
+
+            # Parse the birth date if it's not 'N/A' and in the expected format
+            if birth_date_str != 'N/A':
+                try:
+                    birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d').date()
+                except ValueError:
+                    birth_date = None
+            else:
+                birth_date = None
+
+            # Check if the patient already exists
+            if not Patient.objects.filter(patient_id=patient_id).exists():
+                # Create a new patient object with the extracted data
+                Patient.objects.create(
+                    patient_id=patient_id,
+                    name=patient_name,
+                    gender=patient_sex,
+                    birth_date=birth_date,
+                    file=file_to_claim
+                )
+                messages.success(request, f"Patient with ID {patient_id} was successfully created.")
+            else:
+                messages.info(request, f"A patient with ID {patient_id} already exists.")
+        except Exception as e:
+            messages.error(request, f"An error occurred while processing the file: {str(e)}")
+    else:
+        messages.error(request, "Unsupported file format. Only .MWF files are accepted.")
+
+    # Redirect back to the home page
     return redirect('home')
+
 
 @login_required
 def import_files(request):

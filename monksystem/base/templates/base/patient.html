@@ -5,11 +5,27 @@
     <div class="card">
         <h5 class="card-header">Patient Information</h5>
         <div class="card-body">
+            <!-- Display Patient ID -->
+            {% if patient.patient_id %}
+                <p class="card-text"><strong>ID:</strong> {{ patient.patient_id }}</p>
+            {% endif %}
+            
+            <!-- Display Patient Name -->
             <h5 class="card-title">{{ patient.name }}</h5>
-            <p class="card-text"><strong>ID:</strong> {{ patient.id }}</p>
-            <p class="card-text"><strong>Gender:</strong> {{ patient.gender }}</p>
-            <p class="card-text"><strong>Address:</strong> {{ patient.address }}</p>
-            <p class="card-text"><strong>Contact:</strong> {{ patient.mobile }}</p>
+
+            <!-- Display Patient Gender -->
+            {% if patient.gender %}
+                <p class="card-text"><strong>Gender:</strong> {{ patient.gender }}</p>
+            {% else %}
+                <p class="card-text"><strong>Gender:</strong> Unknown</p>
+            {% endif %}
+            
+            <!-- Display Patient Birth Date -->
+            {% if patient.birth_date %}
+                <p class="card-text"><strong>Birth Date:</strong> {{ patient.birth_date|date:"Y-m-d" }}</p>
+            {% else %}
+                <p class="card-text"><strong>Birth Date:</strong> Not available</p>
+            {% endif %}
         </div>
     </div>
 </div>
